@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Weather App</title>
+  <style>
+    /* CSS styles for the weather app */
+    body {
+      font-family: Arial, sans-serif;
+      background: url('https://your-background-image-url.jpg') center/cover no-repeat; /* Replace with your background image URL */
+      margin: 0;
+      padding: 0;
+      color: #fff;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 10px; /* Rounded corners */
+    }
+    
+    h1 {
+      text-align: center;
+      margin-top: 0;
+      color: #333; /* Dark text color */
+    }
+    
+    .weather-info {
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .weather-icon {
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      background-size: cover;
+      border-radius: 50%; /* Circular shape */
+      margin: 0 auto;
+      background-color: #3498db; /* Blue background color */
+      padding: 10px; /* Padding to create a border effect */
+    }
+    
+    .temperature {
+      font-size: 48px;
+      font-weight: bold;
+      margin-top: 10px;
+      color: #333;
+    }
+    
+    .condition {
+      font-size: 24px;
+      margin-top: 10px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Weather App</h1>
+    <div class="weather-info">
+      <div class="weather-icon"></div>
+      <div class="temperature"></div>
+      <div class="condition"></div>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript code to fetch weather data from API and update the web page
+    const apiKey = 'e433bceb1eb74817a4f162124231412'; // Replace with your API key
+
+    // Function to fetch weather data based on user's location or user-inputted location
+    function fetchWeatherData(location) {
+      const apiUrl = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}`;
+
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          const weatherIcon = document.querySelector('.weather-icon');
+          const temperature = document.querySelector('.temperature');
+          const condition = document.querySelector('.condition');
+
+          weatherIcon.style.backgroundImage = `url(${data.current.condition.icon})`;
+          temperature.textContent = `${data.current.temp_c}°C`;
+          condition.textContent = data.current.condition.text;
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+
+    // Call the fetchWeatherData function with user's location or a user-inputted location
+    fetchWeatherData('London');
+
+    // Add an event listener to the document for clicks
+    document.addEventListener('click', function() {
+      // Prompt the user to enter a location
+      const userLocation = prompt('Enter a location to get the weather:');
+      
+      // Check if the user entered a location and fetch its weather
+      if (userLocation) {
+        fetchWeatherData(userLocation);
+      }
+    });
+  </script>
+</body>
+</html>
